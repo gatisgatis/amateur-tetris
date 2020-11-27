@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.griden {
+  line-height: 0;
+  max-width: 300px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h1 {
+  line-height: 1;
+}
+
+.cell {
+  line-height: 0;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  border: 1px solid black;
+  flex-basis: 10%;
+}
+
+.field {
+  padding: 50px;
+}
