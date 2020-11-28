@@ -47,7 +47,6 @@ const NON_MOVING_CELLS_DEFAULT: Cell[] = [
   {pos: 249, fill: 'blue'},
 ];
 
-
 const updateGrid = (cellsToChange: (Cell | FigureInfo)[]): string[] => {
   const updatedGrid = [...initialGrid];
   const filledGrid = [...nonMovingCells, ...cellsToChange.slice(0, 4)];
@@ -56,8 +55,6 @@ const updateGrid = (cellsToChange: (Cell | FigureInfo)[]): string[] => {
   });
   return updatedGrid;
 };
-
-
 
 const O_FIGURE: (Cell | FigureInfo)[] = [
   {pos: 4, fill: 'red'},
@@ -117,16 +114,19 @@ const T_FIGURE: (Cell | FigureInfo)[] = [
 
 const ALL_FIGURES = [O_FIGURE, I_FIGURE, J_FIGURE, S_FIGURE, Z_FIGURE, T_FIGURE, L_FIGURE];
 
-let activeFigure:(Cell | FigureInfo)[] = [];
+let activeFigure: (Cell | FigureInfo)[] = [];
 
-type Stage = 'before'|'game'|'end';
+type Stage = 'before' | 'game' | 'end';
 
 let keyNow = '';
-let gameStageCopy : Stage;
+let gameStageCopy: Stage;
+let gridCopy: string[];
 
 let activeTimeOut: NodeJS.Timeout;
 
 let helper1 = 0;
+
+let delay = 1000;
 
 const App = () => {
   const [grid, setGrid] = useState(initialGrid);
@@ -134,11 +134,12 @@ const App = () => {
   const [helper2, setHelper2] = useState(false);
 
   gameStageCopy = gameStage;
+  gridCopy = grid;
 
   useEffect(() => {
     document.body.addEventListener('keydown', (event) => {
       keyNow = event.key;
-      if (gameStageCopy === 'game'){
+      if (gameStageCopy === 'game') {
         if (keyNow === 'ArrowLeft') moveLeft(activeFigure);
         if (keyNow === 'ArrowDown') moveDown(activeFigure);
         if (keyNow === 'ArrowUp') rotate(activeFigure);
@@ -161,7 +162,7 @@ const App = () => {
     activeTimeOut = setTimeout(() => {
       moveDown(activeFigure);
       setHelper2(!helper2);
-    }, 750);
+    }, delay);
   }, [helper2]);
 
   const newFigure = () => {
@@ -175,7 +176,7 @@ const App = () => {
 
   const isGameOver = (figure1: Cell[]) => {
     let answer = false;
-    nonMovingCells.forEach(cell => {
+    nonMovingCells.forEach((cell) => {
       if (cell.pos < 40) answer = true;
     });
     return answer;
@@ -213,11 +214,12 @@ const App = () => {
   const moveLeft = (figure: Cell[]) => {
     if (
       !figure.some((cell) => {
-        if (cell.pos < 200) {
+        if (cell.pos < 240) {
           return cell.pos % 10 === 0;
         }
         return false;
-      }) && isLeftSideFree(figure)
+      }) &&
+      isLeftSideFree(figure)
     ) {
       figure.forEach((cell) => {
         // eslint-disable-next-line no-param-reassign
@@ -230,7 +232,7 @@ const App = () => {
   const isLeftSideFree = (figure1: Cell[]) => {
     let answer = true;
     figure1.forEach((cell) => {
-      if (grid[cell.pos-1] === 'blue') answer = false;
+      if (gridCopy[cell.pos - 1] === 'blue') answer = false;
     });
     return answer;
   };
@@ -238,7 +240,7 @@ const App = () => {
   const isRightSideFree = (figure1: Cell[]) => {
     let answer = true;
     figure1.forEach((cell) => {
-      if (grid[cell.pos+1] === 'blue') answer = false;
+      if (gridCopy[cell.pos + 1] === 'blue') answer = false;
     });
     return answer;
   };
@@ -246,11 +248,12 @@ const App = () => {
   const moveRight = (figure: Cell[]) => {
     if (
       !figure.some((cell) => {
-        if (cell.pos < 200) {
+        if (cell.pos < 240) {
           return cell.pos % 10 === 9;
         }
         return false;
-      }) && isRightSideFree(figure)
+      }) &&
+      isRightSideFree(figure)
     ) {
       figure.forEach((cell) => {
         // eslint-disable-next-line no-param-reassign
@@ -294,29 +297,29 @@ const App = () => {
       case 'I':
         if (rotated === '0') {
           let a = 0;
-          if (figure[0].pos%10 === 9) a=-2;
-          if (figure[0].pos%10 === 8) a=-1;
-          if (figure[0].pos%10 === 0) a=1;
+          if (figure[0].pos % 10 === 9) a = -2;
+          if (figure[0].pos % 10 === 8) a = -1;
+          if (figure[0].pos % 10 === 0) a = 1;
           if (
             !checkIfRotationPossible(
               figure[0].pos + 19 + a,
               figure[1].pos + 10 + a,
               figure[2].pos + 1 + a,
-              figure[3].pos - 8 + a,
+              figure[3].pos - 8 + a
             )
           )
             return;
-          figure[0].pos += (19 + a);
-          figure[1].pos += (10 + a);
-          figure[2].pos += (1 + a);
-          figure[3].pos += (-8 + a);
+          figure[0].pos += 19 + a;
+          figure[1].pos += 10 + a;
+          figure[2].pos += 1 + a;
+          figure[3].pos += -8 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
           if (
             !checkIfRotationPossible(
-              figure[0].pos -19,
-              figure[1].pos -10,
+              figure[0].pos - 19,
+              figure[1].pos - 10,
               figure[2].pos - 1,
               figure[3].pos + 8
             )
@@ -330,29 +333,29 @@ const App = () => {
           figure[4].rotated = '180';
         } else if (rotated === '180') {
           let a = 0;
-          if (figure[0].pos%10 === 9) a=-2;
-          if (figure[0].pos%10 === 8) a=-1;
-          if (figure[0].pos%10 === 0) a=1;
+          if (figure[0].pos % 10 === 9) a = -2;
+          if (figure[0].pos % 10 === 8) a = -1;
+          if (figure[0].pos % 10 === 0) a = 1;
           if (
             !checkIfRotationPossible(
               figure[0].pos + 19 + a,
               figure[1].pos + 10 + a,
               figure[2].pos + 1 + a,
-              figure[3].pos - 8 + a,
+              figure[3].pos - 8 + a
             )
           )
             return;
-          figure[0].pos += (19 + a);
-          figure[1].pos += (10 + a);
-          figure[2].pos += (1 + a);
-          figure[3].pos += (-8 + a);
+          figure[0].pos += 19 + a;
+          figure[1].pos += 10 + a;
+          figure[2].pos += 1 + a;
+          figure[3].pos += -8 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
           if (
             !checkIfRotationPossible(
-              figure[0].pos -19,
-              figure[1].pos -10,
+              figure[0].pos - 19,
+              figure[1].pos - 10,
               figure[2].pos - 1,
               figure[3].pos + 8
             )
@@ -372,17 +375,17 @@ const App = () => {
           if (figure[0].pos % 10 === 1) a = 1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -2 + a,
-              figure[1].pos -2 + a,
-              figure[2].pos -10 + a,
-              figure[3].pos -10 + a,
+              figure[0].pos - 2 + a,
+              figure[1].pos - 2 + a,
+              figure[2].pos - 10 + a,
+              figure[3].pos - 10 + a
             )
           )
             return;
-          figure[0].pos += (-2 + a);
-          figure[1].pos += (-2 + a);
-          figure[2].pos += (-10 + a);
-          figure[3].pos += (-10 + a);
+          figure[0].pos += -2 + a;
+          figure[1].pos += -2 + a;
+          figure[2].pos += -10 + a;
+          figure[3].pos += -10 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
@@ -391,7 +394,7 @@ const App = () => {
               figure[0].pos + 1,
               figure[1].pos - 8,
               figure[2].pos,
-              figure[3].pos + 9,
+              figure[3].pos + 9
             )
           )
             return;
@@ -406,26 +409,26 @@ const App = () => {
           if (figure[0].pos % 10 === 0) a = 1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -1 + a,
-              figure[1].pos -1 + a,
-              figure[2].pos -9 + a,
-              figure[3].pos -9 + a,
+              figure[0].pos - 1 + a,
+              figure[1].pos - 1 + a,
+              figure[2].pos - 9 + a,
+              figure[3].pos - 9 + a
             )
           )
             return;
-          figure[0].pos += (-1 + a);
-          figure[1].pos += (-1 + a);
-          figure[2].pos += (-9 + a);
-          figure[3].pos += (-9 + a);
+          figure[0].pos += -1 + a;
+          figure[1].pos += -1 + a;
+          figure[2].pos += -9 + a;
+          figure[3].pos += -9 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
           if (
             !checkIfRotationPossible(
               figure[0].pos + 2,
-              figure[1].pos +11,
-              figure[2].pos +19,
-              figure[3].pos +10,
+              figure[1].pos + 11,
+              figure[2].pos + 19,
+              figure[3].pos + 10
             )
           )
             return;
@@ -443,17 +446,17 @@ const App = () => {
           if (figure[0].pos % 10 === 0) a = 1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -1 + a,
-              figure[1].pos -10 + a,
-              figure[2].pos -19 + a,
-              figure[3].pos -12 + a,
+              figure[0].pos - 1 + a,
+              figure[1].pos - 10 + a,
+              figure[2].pos - 19 + a,
+              figure[3].pos - 12 + a
             )
           )
             return;
-          figure[0].pos += (-1 + a);
-          figure[1].pos += (-10 + a);
-          figure[2].pos += (-19 + a);
-          figure[3].pos += (-12 + a);
+          figure[0].pos += -1 + a;
+          figure[1].pos += -10 + a;
+          figure[2].pos += -19 + a;
+          figure[3].pos += -12 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
@@ -462,7 +465,7 @@ const App = () => {
               figure[0].pos + 1,
               figure[1].pos + 1,
               figure[2].pos + 10,
-              figure[3].pos +12,
+              figure[3].pos + 12
             )
           )
             return;
@@ -479,15 +482,15 @@ const App = () => {
             !checkIfRotationPossible(
               figure[0].pos + 1 + a,
               figure[1].pos + 8 + a,
-              figure[2].pos -1 + a,
-              figure[3].pos -10 + a,
+              figure[2].pos - 1 + a,
+              figure[3].pos - 10 + a
             )
           )
             return;
-          figure[0].pos += (1 + a);
-          figure[1].pos += (8 + a);
-          figure[2].pos += (-1 + a);
-          figure[3].pos += (-10 + a);
+          figure[0].pos += 1 + a;
+          figure[1].pos += 8 + a;
+          figure[2].pos += -1 + a;
+          figure[3].pos += -10 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
@@ -496,7 +499,7 @@ const App = () => {
               figure[0].pos - 1,
               figure[1].pos + 1,
               figure[2].pos + 10,
-              figure[3].pos +10,
+              figure[3].pos + 10
             )
           )
             return;
@@ -515,25 +518,25 @@ const App = () => {
           if (
             !checkIfRotationPossible(
               figure[0].pos + a,
-              figure[1].pos -9 + a,
-              figure[2].pos -2 + a,
-              figure[3].pos -11 + a,
+              figure[1].pos - 9 + a,
+              figure[2].pos - 2 + a,
+              figure[3].pos - 11 + a
             )
           )
             return;
-          figure[0].pos += + a;
-          figure[1].pos += (-9 + a);
-          figure[2].pos += (-2 + a);
-          figure[3].pos += (-11 + a);
+          figure[0].pos += +a;
+          figure[1].pos += -9 + a;
+          figure[2].pos += -2 + a;
+          figure[3].pos += -11 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
           if (
             !checkIfRotationPossible(
               figure[0].pos,
-              figure[1].pos +9,
-              figure[2].pos +2,
-              figure[3].pos +11,
+              figure[1].pos + 9,
+              figure[2].pos + 2,
+              figure[3].pos + 11
             )
           )
             return;
@@ -549,25 +552,25 @@ const App = () => {
           if (
             !checkIfRotationPossible(
               figure[0].pos + a,
-              figure[1].pos -9 + a,
-              figure[2].pos -2 + a,
-              figure[3].pos -11 + a,
+              figure[1].pos - 9 + a,
+              figure[2].pos - 2 + a,
+              figure[3].pos - 11 + a
             )
           )
             return;
-          figure[0].pos += + a;
-          figure[1].pos += (-9 + a);
-          figure[2].pos += (-2 + a);
-          figure[3].pos += (-11 + a);
+          figure[0].pos += +a;
+          figure[1].pos += -9 + a;
+          figure[2].pos += -2 + a;
+          figure[3].pos += -11 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
           if (
             !checkIfRotationPossible(
               figure[0].pos,
-              figure[1].pos +9,
-              figure[2].pos +2,
-              figure[3].pos +11,
+              figure[1].pos + 9,
+              figure[2].pos + 2,
+              figure[3].pos + 11
             )
           )
             return;
@@ -585,26 +588,26 @@ const App = () => {
           if (figure[0].pos % 10 === 9) a = -1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -1 + a,
-              figure[1].pos -9 + a,
+              figure[0].pos - 1 + a,
+              figure[1].pos - 9 + a,
               figure[2].pos + a,
-              figure[3].pos -8 + a,
+              figure[3].pos - 8 + a
             )
           )
             return;
-          figure[0].pos += (-1 + a);
-          figure[1].pos += (-9 + a);
+          figure[0].pos += -1 + a;
+          figure[1].pos += -9 + a;
           figure[2].pos += a;
-          figure[3].pos += (-8 + a);
+          figure[3].pos += -8 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
           if (
             !checkIfRotationPossible(
               figure[0].pos + 1,
-              figure[1].pos +9,
+              figure[1].pos + 9,
               figure[2].pos,
-              figure[3].pos +8,
+              figure[3].pos + 8
             )
           )
             return;
@@ -619,26 +622,26 @@ const App = () => {
           if (figure[0].pos % 10 === 9) a = -1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -1 + a,
-              figure[1].pos -9 + a,
+              figure[0].pos - 1 + a,
+              figure[1].pos - 9 + a,
               figure[2].pos + a,
-              figure[3].pos -8 + a,
+              figure[3].pos - 8 + a
             )
           )
             return;
-          figure[0].pos += (-1 + a);
-          figure[1].pos += (-9 + a);
+          figure[0].pos += -1 + a;
+          figure[1].pos += -9 + a;
           figure[2].pos += a;
-          figure[3].pos += (-8 + a);
+          figure[3].pos += -8 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
           if (
             !checkIfRotationPossible(
               figure[0].pos + 1,
-              figure[1].pos +9,
+              figure[1].pos + 9,
               figure[2].pos,
-              figure[3].pos +8,
+              figure[3].pos + 8
             )
           )
             return;
@@ -656,17 +659,17 @@ const App = () => {
           if (figure[0].pos % 10 === 0) a = 1;
           if (
             !checkIfRotationPossible(
-              figure[0].pos -1 + a,
-              figure[1].pos -10 + a,
-              figure[2].pos -10 + a,
-              figure[3].pos -10 + a,
+              figure[0].pos - 1 + a,
+              figure[1].pos - 10 + a,
+              figure[2].pos - 10 + a,
+              figure[3].pos - 10 + a
             )
           )
             return;
-          figure[0].pos += (-1 + a);
-          figure[1].pos += (-10 + a);
-          figure[2].pos += (-10 + a);
-          figure[3].pos += (-10 + a);
+          figure[0].pos += -1 + a;
+          figure[1].pos += -10 + a;
+          figure[2].pos += -10 + a;
+          figure[3].pos += -10 + a;
           // @ts-ignore
           figure[4].rotated = '90';
         } else if (rotated === '90') {
@@ -675,7 +678,7 @@ const App = () => {
               figure[0].pos + 1,
               figure[1].pos + 9,
               figure[2].pos + 9,
-              figure[3].pos + 10,
+              figure[3].pos + 10
             )
           )
             return;
@@ -693,14 +696,14 @@ const App = () => {
               figure[0].pos + a,
               figure[1].pos + a,
               figure[2].pos + a,
-              figure[3].pos -9 + a,
+              figure[3].pos - 9 + a
             )
           )
             return;
           figure[0].pos += a;
           figure[1].pos += a;
           figure[2].pos += a;
-          figure[3].pos += (-9+a);
+          figure[3].pos += -9 + a;
           // @ts-ignore
           figure[4].rotated = '270';
         } else {
@@ -709,7 +712,7 @@ const App = () => {
               figure[0].pos,
               figure[1].pos + 1,
               figure[2].pos + 1,
-              figure[3].pos + 9,
+              figure[3].pos + 9
             )
           )
             return;
@@ -745,14 +748,15 @@ const App = () => {
     rowsToDelete.forEach((row) => {
       if (row < 24) {
         copyOfNonMovingCells.forEach((cell) => {
-          if (Math.floor(cell.pos / 10) === row){
+          if (Math.floor(cell.pos / 10) === row) {
             nonMovingCells.splice(nonMovingCells.indexOf(cell), 1);
-            deletedRowsCount += 0.1;
           }
         });
         nonMovingCells.forEach((cell) => {
           if (Math.floor(cell.pos / 10) < row) cell.pos += ROW;
         });
+        deletedRowsCount += 1;
+        if (deletedRowsCount%5 === 0) delay *= 0.8;
       }
     });
   };
@@ -792,7 +796,8 @@ const App = () => {
         <div className="col-xs-12 griden">
           {grid.map((cell, index) => {
             return (
-              (index < 240 && index > 39) && <div key={uuid()} className="cell" style={{backgroundColor: cell}} />
+              index < 240 &&
+              index > 39 && <div key={uuid()} className="cell" style={{backgroundColor: cell}} />
             );
           })}
         </div>
