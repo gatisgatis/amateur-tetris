@@ -781,18 +781,20 @@ const App = () => {
 
   return (
     <div className="field">
-      <h1> TETRIS. Score: {deletedRowsCount.toFixed(0)}</h1>
-      <h2>{gameStage === 'game' && 'PLAY'}</h2>
-      <h2>{gameStage === 'end' && 'GAME OVER! Press Start to play'}</h2>
-      <h2>{gameStage === 'before' && 'Press Start to play'}</h2>
-      <h4>Use Arrows on keyboard</h4>
-      <button type="button" onClick={startGame}>
-        START
-      </button>
-      <button type="button" onClick={endGame}>
-        END
-      </button>
-      <div className="row">
+      <div className="row center-xs wrapper">
+        <h1> TETRIS. Score: {deletedRowsCount.toFixed(0)}</h1>
+        <h2>{gameStage === 'game' && 'PLAY'}</h2>
+        <h2>{gameStage === 'end' && 'GAME OVER! Press Start to play'}</h2>
+        <h2>{gameStage === 'before' && 'Press Start to play'}</h2>
+        <h4>Use Arrows on keyboard</h4>
+        <div>
+          <button type="button" onClick={startGame}>
+            START
+          </button>
+          <button type="button" onClick={endGame}>
+            END
+          </button>
+        </div>
         <div className="col-xs-12 griden">
           {grid.map((cell, index) => {
             return (

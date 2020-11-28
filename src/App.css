@@ -4,11 +4,19 @@
   padding: 0;
 }
 
+.wrapper {
+    flex-direction: column;
+    align-items: center;
+}
+
 .griden {
   line-height: 0;
-  max-width: 300px;
+  max-width: 250px;
   display: flex;
   flex-wrap: wrap;
+  padding:0;
+  border: 3px solid black;
+  margin: 0;
 }
 
 h1 {
@@ -16,9 +24,8 @@ h1 {
 }
 
 .cell {
-  line-height: 0;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   display: inline-block;
   border: 1px solid black;
   flex-basis: 10%;
@@ -26,4 +33,18 @@ h1 {
 
 .field {
   padding: 50px;
+}
+
+@media (max-width: 768px) {
+    .cell {
+        max-width: 220px;
+        height: 22px;
+    }
+}
+
+@media (max-width: 400px) {
+    .cell {
+        max-width: 200px;
+        height: 20px;
+    }
 }
