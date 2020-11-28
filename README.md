@@ -1,1 +1,3 @@
-Strukturēts un ar biežāk lietotajiem dependencies. Gatavs lietošanai
+Tetris.
+būvēts uz 1-dimensiju masīva
+https://gatisgatis.github.io/amateur-tetris/
