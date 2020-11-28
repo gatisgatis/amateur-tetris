@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/amateur-tetris/static/css/main.e0fe7230.chunk.css",
-    "main.js": "/amateur-tetris/static/js/main.ea9aab8f.chunk.js",
-    "main.js.map": "/amateur-tetris/static/js/main.ea9aab8f.chunk.js.map",
+    "main.js": "/amateur-tetris/static/js/main.fd0e9868.chunk.js",
+    "main.js.map": "/amateur-tetris/static/js/main.fd0e9868.chunk.js.map",
     "runtime-main.js": "/amateur-tetris/static/js/runtime-main.e6398a47.js",
     "runtime-main.js.map": "/amateur-tetris/static/js/runtime-main.e6398a47.js.map",
     "static/js/2.e1e3cac9.chunk.js": "/amateur-tetris/static/js/2.e1e3cac9.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.e6398a47.js",
     "static/js/2.e1e3cac9.chunk.js",
     "static/css/main.e0fe7230.chunk.css",
-    "static/js/main.ea9aab8f.chunk.js"
+    "static/js/main.fd0e9868.chunk.js"
   ]
 }
