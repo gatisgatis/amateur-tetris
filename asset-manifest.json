@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/amateur-tetris/static/css/main.e0fe7230.chunk.css",
-    "main.js": "/amateur-tetris/static/js/main.53418bca.chunk.js",
-    "main.js.map": "/amateur-tetris/static/js/main.53418bca.chunk.js.map",
+    "main.js": "/amateur-tetris/static/js/main.ea9aab8f.chunk.js",
+    "main.js.map": "/amateur-tetris/static/js/main.ea9aab8f.chunk.js.map",
     "runtime-main.js": "/amateur-tetris/static/js/runtime-main.e6398a47.js",
     "runtime-main.js.map": "/amateur-tetris/static/js/runtime-main.e6398a47.js.map",
-    "static/js/2.9b97a66d.chunk.js": "/amateur-tetris/static/js/2.9b97a66d.chunk.js",
-    "static/js/2.9b97a66d.chunk.js.map": "/amateur-tetris/static/js/2.9b97a66d.chunk.js.map",
+    "static/js/2.e1e3cac9.chunk.js": "/amateur-tetris/static/js/2.e1e3cac9.chunk.js",
+    "static/js/2.e1e3cac9.chunk.js.map": "/amateur-tetris/static/js/2.e1e3cac9.chunk.js.map",
     "static/js/3.48c71645.chunk.js": "/amateur-tetris/static/js/3.48c71645.chunk.js",
     "static/js/3.48c71645.chunk.js.map": "/amateur-tetris/static/js/3.48c71645.chunk.js.map",
     "index.html": "/amateur-tetris/index.html",
     "static/css/main.e0fe7230.chunk.css.map": "/amateur-tetris/static/css/main.e0fe7230.chunk.css.map",
-    "static/js/2.9b97a66d.chunk.js.LICENSE.txt": "/amateur-tetris/static/js/2.9b97a66d.chunk.js.LICENSE.txt"
+    "static/js/2.e1e3cac9.chunk.js.LICENSE.txt": "/amateur-tetris/static/js/2.e1e3cac9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e6398a47.js",
-    "static/js/2.9b97a66d.chunk.js",
+    "static/js/2.e1e3cac9.chunk.js",
     "static/css/main.e0fe7230.chunk.css",
-    "static/js/main.53418bca.chunk.js"
+    "static/js/main.ea9aab8f.chunk.js"
   ]
 }
