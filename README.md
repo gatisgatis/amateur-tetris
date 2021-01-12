@@ -1,6 +1,6 @@
 Tetris. 
 
-Built tetris without using any examples and tutorials. 
+Built tetris without using any examples and tutorials. React+TS
 
 1D array and looong non-dry functions. 
 
